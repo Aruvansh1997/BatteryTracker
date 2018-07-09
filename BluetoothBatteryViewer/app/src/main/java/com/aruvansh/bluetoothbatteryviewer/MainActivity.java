@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
     private BluetoothAdapter BA;
     private Set<BluetoothDevice>pairedDevices;
     ListView lv;
+    public final static String EXTRA_MESSAGE = "com.aruvansh.bluetoothbatteryviewer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,5 +68,20 @@ public class MainActivity extends Activity {
         final ArrayAdapter adapter = new  ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
-    }
+      /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(MainActivity.this, Calculation.class);
+                Bundle bundle = new Bundle();
+                String id1=String.valueOf(id);
+                String pos=String.valueOf(position);
+                bundle.putString("id",id1);
+                bundle.putString("pos",pos);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+   */ }
+
 }
