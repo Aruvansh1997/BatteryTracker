@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,7 +20,8 @@ public class MainActivity extends Activity {
     private BluetoothAdapter BA;
     private Set<BluetoothDevice>pairedDevices;
     ListView lv;
-    public final static String EXTRA_MESSAGE = "com.aruvansh.bluetoothbatteryviewer";
+    ArrayList list = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,9 @@ public class MainActivity extends Activity {
         b3=(Button)findViewById(R.id.button3);
         b4=(Button)findViewById(R.id.button4);
 
+
         BA = BluetoothAdapter.getDefaultAdapter();
+
         lv = (ListView)findViewById(R.id.listView);
     }
 
@@ -57,18 +61,24 @@ public class MainActivity extends Activity {
     }
 
 
+
+
     public void list(View v){
         pairedDevices = BA.getBondedDevices();
 
-        ArrayList list = new ArrayList();
 
-        for(BluetoothDevice bt : pairedDevices) list.add(bt.getName());
+        int i=0;
+
+        for(BluetoothDevice bt : pairedDevices) {
+            list.add(i,bt.getName());
+            i++;
+        }
         Toast.makeText(getApplicationContext(), "Showing Paired Devices",Toast.LENGTH_SHORT).show();
 
         final ArrayAdapter adapter = new  ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
-      /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -76,12 +86,14 @@ public class MainActivity extends Activity {
                 Bundle bundle = new Bundle();
                 String id1=String.valueOf(id);
                 String pos=String.valueOf(position);
+                String name= (String) list.get(position);
                 bundle.putString("id",id1);
                 bundle.putString("pos",pos);
+                bundle.putString("name",name);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-   */ }
+    }
 
 }

@@ -1,116 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionGroup="true"
     tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="81dp">
+    android:transitionGroup="true">
 
-    <TextView
-        android:id="@+id/textview"
+    <TextView android:text="Bluetooth Example"
         android:layout_width="wrap_content"
-        android:layout_height="49dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Bluetooth"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview"
         android:textSize="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:theme="@style/Base.TextAppearance.AppCompat" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="65dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button3"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="37dp"
+        android:layout_toEndOf="@+id/button4"
         android:clickable="true"
         android:onClick="on"
-        android:text="Turn On"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview" />
+        android:text="Turn On" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="74dp"
-        android:layout_height="43dp"
-        android:layout_alignBottom="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
         android:onClick="visible"
-        android:text="Get visible"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/textview" />
+        android:text="Get visible" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="65dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button"
+        android:layout_below="@+id/textview"
         android:onClick="list"
-        android:text="List devices"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview" />
+        android:text="List devices" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="65dp"
-        android:layout_height="43dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:onClick="off"
-        android:text="turn off"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="0.359"
-        app:layout_constraintStart_toEndOf="@+id/button" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="324dp"
-        android:layout_height="311dp"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button"
-        android:layout_below="@+id/textView2"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="194dp" />
-
-    <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/listView"
-        android:layout_alignStart="@+id/listView"
-        android:layout_below="@+id/button4"
-        android:layout_marginBottom="8dp"
+        android:layout_alignBaseline="@+id/button"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentStart="true"
+        android:onClick="off"
+        android:text="turn off" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_below="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Paired devices:"
+        android:id="@+id/textView2"
         android:textColor="#ff34ff06"
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/listView"
-        tools:layout_editor_absoluteX="88dp" />
+        android:layout_below="@+id/button4"
+        android:layout_alignLeft="@+id/listView"
+        android:layout_alignStart="@+id/listView" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
