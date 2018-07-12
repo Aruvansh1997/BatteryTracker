@@ -1,20 +1,17 @@
 package com.aruvansh.bluetoothbatteryviewer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +19,10 @@ import android.widget.Toast;
 public class Calculation extends AppCompatActivity {
 
     String id,pos,name= null;
-    long time;
-    CountDownTimer mCountDownTimer;
-    MyCountDownTimer myCountDownTimer;
-    ProgressBar progressBar;
+    long time=0;
     Object item;
     SharedPreferences sharedPreferences;
     public static final String mypreference = "mypref";
-    public static final String Name = "nameKey";
-    public static final String TotalTime = "TotalTime";
-    public static final String TimeLeft = "TimeLeft";
     int flag=1;
 
     @Override
@@ -47,10 +38,16 @@ public class Calculation extends AppCompatActivity {
         Button save=(Button)findViewById(R.id.save);
         sharedPreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
-        if (sharedPreferences.contains(Name)) {
-            time= Long.parseLong(sharedPreferences.getString(TotalTime," "));
+        if (sharedPreferences.contains(name)) {
+            time= Long.parseLong(sharedPreferences.getString(name," "));
             Toast.makeText(getApplicationContext(), "Already Stored "+ time ,Toast.LENGTH_SHORT).show();
             flag=-1;
+            Intent intent=new Intent(Calculation.this, BatteryCounter.class);
+            Bundle bundle1=new Bundle();
+            bundle.putString("name",name);
+            bundle.putString("time", String.valueOf(time));
+            intent.putExtras(bundle1);
+            startActivity(intent);
         }
         else {
             save.setOnClickListener(new Button.OnClickListener() {
@@ -62,16 +59,18 @@ public class Calculation extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(Name, name);
-                    editor.putString(TotalTime, Long.toString(time));
+                    editor.putString(name,Long.toString(time));
                     editor.commit();
                     v.startAnimation(animRotate);
+                    Toast.makeText(getApplicationContext(), "Your Preference has been Saved" ,Toast.LENGTH_LONG).show();
+                    TextView textView=(TextView)findViewById(R.id.displaymessage);
+                    textView.setText("Now you can go back and start with the calculation you can also reset the value of the claimed hours");
+
                 }
             });
 
         }
-        progressBar=(ProgressBar)findViewById(R.id.progressBar);
-        TextView textView1=(TextView)findViewById(R.id.textView2);
+       TextView textView1=(TextView)findViewById(R.id.textView2);
         textView1.setText("Please enter the claimed hours of battery time by your device "+ name);
         Spinner spinner=(Spinner)findViewById(R.id.spinner);
         String list[]={"1","2","3","4","5","6","7","8","9","10"};
@@ -80,50 +79,19 @@ public class Calculation extends AppCompatActivity {
         spinner.setAdapter(aa);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (flag != -1) {
                     item = parent.getItemAtPosition(pos);
                     String stringToConvert = String.valueOf(item);
                     Long convertedLong = Long.parseLong(stringToConvert);
                     time = convertedLong;
                     ((TextView) view).setTextColor(Color.RED);
-                } else {
-                    Log.d("TAG", "onItemSelected: " + item);
-                    ImageButton imageButton = findViewById(R.id.imageButton);
-                    imageButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            progressBar.setProgress(100);
-                            myCountDownTimer = new MyCountDownTimer(time * 3600000, 60000);
-                            myCountDownTimer.start();
-                        }
-                    });
+
                 }
-            }
             public void onNothingSelected(AdapterView<?> parent) {
-            }
+
+        }
         });
-        
 
 
-    }
-    public class MyCountDownTimer extends CountDownTimer {
-
-        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-            int progress = (int) (millisUntilFinished/100);
-            progressBar.setProgress(progress);
-        }
-
-        @Override
-        public void onFinish() {
-
-            progressBar.setProgress(0);
-        }
 
     }
 
