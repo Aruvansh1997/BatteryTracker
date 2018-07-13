@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/DisplayText"
         android:layout_width="230dp"
         android:layout_height="97dp"
         android:layout_marginBottom="8dp"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toStartOf="@+id/StopButton"
         app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/DisplayText"
         app:layout_constraintVertical_bias="0.471"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -58,7 +58,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/DisplayText"
         app:layout_constraintVertical_bias="0.469"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 </android.support.constraint.ConstraintLayout>
