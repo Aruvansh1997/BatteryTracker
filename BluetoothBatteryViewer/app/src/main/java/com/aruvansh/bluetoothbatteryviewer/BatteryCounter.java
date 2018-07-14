@@ -15,12 +15,15 @@ import android.widget.Toast;
 public class BatteryCounter extends AppCompatActivity {
 
     String name,time = null;
+    long original;
     MyCountDownTimer myCountDownTimer;
     ProgressBar progressBar;
-    Long timeleft;
+    long timeleft;
     int progress;
+    long TimeRecur;
     SharedPreferences sharedPreferences;
     public static final String mypreference = "mypref";
+    int flag=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +33,12 @@ public class BatteryCounter extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
         time = bundle.getString("time");
+       // original=Long.valueOf(bundle.getString("timeentered"));
         timeleft = Long.parseLong(time);
+
         name = bundle.getString("name");
-        progress=Integer.parseInt(bundle.getString("progress"));
+        progress=100-Integer.parseInt(bundle.getString("progress"));
+        Log.d("TAG", "onCreate:time left in the variable "+timeleft+progress);
         TextView textView = (TextView) findViewById(R.id.DisplayText);
         progressBar=(ProgressBar)findViewById(R.id.progressBar);
         Log.d("geuif uiefio ewifgew f", "onCreate: "+progress);
@@ -44,7 +50,7 @@ public class BatteryCounter extends AppCompatActivity {
                 progressBar.setProgress(progress);
                 myCountDownTimer = new MyCountDownTimer(timeleft * 60000, 60000);
                 Toast.makeText(getApplicationContext(), "Your current pogree"+progress, Toast.LENGTH_LONG).show();
-                myCountDownTimer.intialProgress(progress);
+                myCountDownTimer.intialProgress();
                 myCountDownTimer.start();
             }
         });
@@ -53,11 +59,11 @@ public class BatteryCounter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                time=String.valueOf(progress/600);
+                time=String.valueOf(TimeRecur/60000);
                 Log.d("TAG", "onClicking stop button: "+progress);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(name, time+" "+progress);
-                Toast.makeText(getApplicationContext(), "Your time left"+time, Toast.LENGTH_LONG).show();
+                editor.putString(name, time+" "+progress+" "+original);
+                Toast.makeText(getApplicationContext(), "Your time left"+progress, Toast.LENGTH_LONG).show();
                 editor.commit();
                 myCountDownTimer.onPause();
 
@@ -75,25 +81,32 @@ public class BatteryCounter extends AppCompatActivity {
         @Override
         public void onTick(long millisUntilFinished) {
 
-            Log.d("hriofb ghreio gior", "onTick: "+millisUntilFinished);
-            progress = (int) (millisUntilFinished / 60000);
+           TimeRecur=millisUntilFinished;
+            if(flag==-1){
+                progressBar.setProgress(progress);
+                flag=1;
 
-            progressBar.setProgress(progressBar.getMax()-progress);
+            }
+            else {
+                progress+= (100 /(int)( / 60000));//change this
+                Log.d("TAG", "onTick: " + progress);
+                progressBar.setProgress(progressBar.getMax() - progress);
+            }
 
         }
 
         @Override
         public void onFinish() {
-
+            Log.d("TAG", "onFinish:this is called ");
             progressBar.setProgress(0);
         }
         public void onPause() {
             myCountDownTimer.cancel();
 
         }
-        public void intialProgress(int progress)
+        public void intialProgress()
         {
-            progressBar.setProgress(progress);
+            flag=-1;
         }
 
     }
