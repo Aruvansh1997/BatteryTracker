@@ -20,12 +20,14 @@ import android.widget.Toast;
 public class Calculation extends AppCompatActivity {
 
     String id,pos,name= null;
-    long time,progress,timeentered;
+    long time,progress;
     Object item;
+    int progresstimer;
 
     SharedPreferences sharedPreferences;
     public static final String mypreference = "mypref";
     int flag=1;
+    public static final String TAG="TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,15 @@ public class Calculation extends AppCompatActivity {
            String temp[]=x.split(" ");
             progress=Long.parseLong(temp[1]);
             time= Long.parseLong(temp[0]);
+            progresstimer=Integer.parseInt(temp[2]);
+            Log.d(TAG, "onCreate:shared preferences extraction "+progresstimer);
             Toast.makeText(getApplicationContext(), "Already Stored "+ time ,Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(this, BatteryCounter.class);
              Bundle bundle1=new Bundle();
             bundle1.putString("name",name);
             bundle1.putString("progress",String.valueOf(progress));
-             bundle1.putString("time", String.valueOf(time));
-           //  bundle1.putString("timeentered",String.valueOf(timeentered));
+            bundle1.putString("time", String.valueOf(time));
+            bundle1.putInt("progresstimer",progresstimer);
             intent.putExtras(bundle1);
             startActivity(intent);
 
@@ -66,9 +70,10 @@ public class Calculation extends AppCompatActivity {
                  */
                 @Override
                 public void onClick(View v) {
+                    progresstimer= (100 /(int)(time));
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(name, Long.toString(time)+" "+"0");
-                    Log.d("TAG", "onCreate:We have reached here "+time);
+                    editor.putString(name, Long.toString(time)+" "+"0"+" "+Integer.toString(progresstimer));
+                    Log.d(TAG, "onClick: commit completed and thus all events aligned");
                     editor.commit();
                     v.startAnimation(animRotate);
                     Toast.makeText(getApplicationContext(), "Your Preference has been Saved", Toast.LENGTH_LONG).show();
@@ -81,7 +86,7 @@ public class Calculation extends AppCompatActivity {
             TextView textView1 = (TextView) findViewById(R.id.textView2);
             textView1.setText("Please enter the claimed hours of battery time by your device " + name);
             Spinner spinner = (Spinner) findViewById(R.id.spinner);
-            String list[] = {"3", "120", "180", "240", "300", "360", "420", "480", "540", "600"};
+            String list[] = {"2", "120", "180", "240", "300", "360", "420", "480", "540", "600"};
             ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, list);
             aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(aa);

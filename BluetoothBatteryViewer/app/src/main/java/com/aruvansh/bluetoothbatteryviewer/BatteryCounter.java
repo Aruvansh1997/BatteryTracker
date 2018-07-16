@@ -19,11 +19,13 @@ public class BatteryCounter extends AppCompatActivity {
     MyCountDownTimer myCountDownTimer;
     ProgressBar progressBar;
     long timeleft;
-    int progress;
+    int progress,progresstimer;
     long TimeRecur;
     SharedPreferences sharedPreferences;
     public static final String mypreference = "mypref";
     int flag=1;
+    TextView BatteryLevel,TimeElapsed;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +35,22 @@ public class BatteryCounter extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
         time = bundle.getString("time");
-       // original=Long.valueOf(bundle.getString("timeentered"));
+        progresstimer=bundle.getInt("progresstimer");
         timeleft = Long.parseLong(time);
-
+        BatteryLevel=(TextView)findViewById(R.id.BatteryLevel);
+        TimeElapsed=(TextView)findViewById(R.id.TimeElapsed);
         name = bundle.getString("name");
-        progress=100-Integer.parseInt(bundle.getString("progress"));
-        Log.d("TAG", "onCreate:time left in the variable "+timeleft+progress);
+        progress=Integer.parseInt(bundle.getString("progress"));
         TextView textView = (TextView) findViewById(R.id.DisplayText);
         progressBar=(ProgressBar)findViewById(R.id.progressBar);
-        Log.d("geuif uiefio ewifgew f", "onCreate: "+progress);
         textView.setText("The battery consumption by your device " + name);
         ImageButton imageButton = findViewById(R.id.StartButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar.setProgress(progress);
-                myCountDownTimer = new MyCountDownTimer(timeleft * 60000, 60000);
-                Toast.makeText(getApplicationContext(), "Your current pogree"+progress, Toast.LENGTH_LONG).show();
-                myCountDownTimer.intialProgress();
+                myCountDownTimer = new MyCountDownTimer( 6000, 1000);
+                //myCountDownTimer.intialProgress();
                 myCountDownTimer.start();
             }
         });
@@ -62,8 +62,8 @@ public class BatteryCounter extends AppCompatActivity {
                 time=String.valueOf(TimeRecur/60000);
                 Log.d("TAG", "onClicking stop button: "+progress);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(name, time+" "+progress+" "+original);
-                Toast.makeText(getApplicationContext(), "Your time left"+progress, Toast.LENGTH_LONG).show();
+                editor.putString(name, time+" "+progress+" "+Integer.toString(progresstimer));
+                Toast.makeText(getApplicationContext(), "Your time left"+progress+" "+progresstimer+" "+time, Toast.LENGTH_LONG).show();
                 editor.commit();
                 myCountDownTimer.onPause();
 
@@ -82,16 +82,24 @@ public class BatteryCounter extends AppCompatActivity {
         public void onTick(long millisUntilFinished) {
 
            TimeRecur=millisUntilFinished;
-            if(flag==-1){
-                progressBar.setProgress(progress);
-                flag=1;
+            Log.d("TAG", "onTick:millis unti finished "+millisUntilFinished);
+          //  if(flag==-1){
+            //    progressBar.setProgress(progressBar.getMax()-progress);
+             //   flag=1;
 
-            }
-            else {
-                progress+= (100 /(int)( / 60000));//change this
-                Log.d("TAG", "onTick: " + progress);
-                progressBar.setProgress(progressBar.getMax() - progress);
-            }
+            //}
+            //else {
+                //progressBar.setProgress(progressBar.getMax() - progress);
+                //progress+=progresstimer;//change this
+                //Log.d("TAG", "onTick: " + progress);
+
+
+            //}
+            Toast.makeText(getApplicationContext(), "BatteryLevel "+progress ,Toast.LENGTH_SHORT).show();
+            Log.d("TAG", "onTick: "+progress);
+            // BatteryLevel.setText(progress);
+            progress+=progresstimer;
+//            TimeElapsed.setText((int)millisUntilFinished/60000);
 
         }
 
