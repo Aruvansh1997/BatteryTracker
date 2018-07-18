@@ -48,14 +48,15 @@ public class Calculation extends AppCompatActivity {
            String temp[]=x.split(" ");
             progress=Long.parseLong(temp[1]);
             time= Long.parseLong(temp[0]);
-            progresstimer=Integer.parseInt(temp[2]);
+            progresstimer=25;
+            //progresstimer=Integer.parseInt(temp[2]);
             Log.d(TAG, "onCreate:shared preferences extraction "+progresstimer);
             Toast.makeText(getApplicationContext(), "Already Stored "+ time ,Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(this, BatteryCounter.class);
              Bundle bundle1=new Bundle();
             bundle1.putString("name",name);
             bundle1.putString("progress",String.valueOf(progress));
-            bundle1.putString("time", String.valueOf(time));
+            bundle1.putLong("time", time);
             bundle1.putInt("progresstimer",progresstimer);
             intent.putExtras(bundle1);
             startActivity(intent);
