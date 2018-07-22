@@ -29,7 +29,7 @@
         android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textColor="@android:color/holo_orange_dark"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

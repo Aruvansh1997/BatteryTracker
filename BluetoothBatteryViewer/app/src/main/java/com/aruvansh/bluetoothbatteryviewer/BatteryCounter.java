@@ -14,13 +14,13 @@ import android.widget.Toast;
 
 public class BatteryCounter extends AppCompatActivity {
 
-    String name,time = null;
-    long original;
+    String name=null,time=null;
+    long original=0;
     MyCountDownTimer myCountDownTimer;
     ProgressBar progressBar;
-    long timeleft;
-    int progress,progresstimer;
-    long TimeRecur;
+    long timeleft=0;
+    int progress=0,progresstimer=0;
+    long TimeRecur=0;
     SharedPreferences sharedPreferences;
     public static final String mypreference = "mypref";
     int flag=1;
@@ -49,7 +49,7 @@ public class BatteryCounter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setProgress(progress);
-                myCountDownTimer = new MyCountDownTimer( timeleft, 60000);
+                myCountDownTimer = new MyCountDownTimer( timeleft*60000, 60000);
                 //myCountDownTimer.intialProgress();
                 myCountDownTimer.start();
             }
@@ -62,7 +62,7 @@ public class BatteryCounter extends AppCompatActivity {
                 timeleft=(TimeRecur/60000);
                 Log.d("TAG", "onClicking stop button: "+progress);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(name, time+" "+progress+" "+Integer.toString(progresstimer));
+                editor.putString(name, Long.toString(timeleft)+" "+progress+" "+Integer.toString(progresstimer));
                 Toast.makeText(getApplicationContext(), "Your time left"+progress+" "+progresstimer+" "+time, Toast.LENGTH_LONG).show();
                 editor.commit();
                 myCountDownTimer.onPause();

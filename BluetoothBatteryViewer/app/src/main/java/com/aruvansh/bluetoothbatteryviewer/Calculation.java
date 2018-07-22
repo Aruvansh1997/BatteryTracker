@@ -20,7 +20,7 @@ import android.widget.Toast;
 public class Calculation extends AppCompatActivity {
 
     String id,pos,name= null;
-    long time,progress;
+    long time=0,progress=0;
     Object item;
     int progresstimer;
 
@@ -48,8 +48,8 @@ public class Calculation extends AppCompatActivity {
            String temp[]=x.split(" ");
             progress=Long.parseLong(temp[1]);
             time= Long.parseLong(temp[0]);
-            progresstimer=25;
-            //progresstimer=Integer.parseInt(temp[2]);
+            Log.d(TAG, "onCreate: time due to long parse long is"+time);
+            progresstimer=Integer.parseInt(temp[2]);
             Log.d(TAG, "onCreate:shared preferences extraction "+progresstimer);
             Toast.makeText(getApplicationContext(), "Already Stored "+ time ,Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(this, BatteryCounter.class);
@@ -87,7 +87,7 @@ public class Calculation extends AppCompatActivity {
             TextView textView1 = (TextView) findViewById(R.id.textView2);
             textView1.setText("Please enter the claimed hours of battery time by your device " + name);
             Spinner spinner = (Spinner) findViewById(R.id.spinner);
-            String list[] = {"2", "120", "180", "240", "300", "360", "420", "480", "540", "600"};
+            String list[] = {"60", "120", "180", "240", "300", "360", "420", "480", "540", "600"};
             ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, list);
             aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(aa);
